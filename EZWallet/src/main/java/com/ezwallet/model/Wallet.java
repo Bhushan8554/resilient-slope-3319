@@ -2,10 +2,13 @@ package com.ezwallet.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Wallet {
@@ -14,6 +17,10 @@ public class Wallet {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer walletId;
 	private BigDecimal balance;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customer_Id")
+	private Customer customer;
 	
 	public Integer getWalletId() {
 		return walletId;
@@ -27,6 +34,13 @@ public class Wallet {
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
 	
 	
 }
