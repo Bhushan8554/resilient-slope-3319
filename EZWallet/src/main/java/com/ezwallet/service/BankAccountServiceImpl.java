@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.model.BankAccount;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.repository.BankAccountDao;
 
+@Service
 public class BankAccountServiceImpl implements BankAccountService{
 	
 	@Autowired
