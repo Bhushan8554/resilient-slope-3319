@@ -1,7 +1,10 @@
 package com.ezwallet.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -24,7 +27,9 @@ public class Beneficiary {
 	@Pattern(regexp = "[^0-9.]{3,30}" , message = "User Name is not valid")
 	private String name;
 	
-	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "walletId" ,referencedColumnName = "walletId")
+	private Wallet wallet;
 	
 	
 }
