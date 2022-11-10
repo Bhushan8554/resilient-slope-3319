@@ -1,16 +1,27 @@
 package com.ezwallet.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Table
 @Entity
 public class Transaction {
 	
@@ -22,67 +33,6 @@ public class Transaction {
 	private double amount;
 	private String Description;
 	
-	public Transaction() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Transaction(Integer transactionId, String transactionType, LocalDate transactionDate, double amount,
-			String description) {
-		super();
-		this.transactionId = transactionId;
-		this.transactionType = transactionType;
-		this.transactionDate = transactionDate;
-		this.amount = amount;
-		Description = description;
-	}
-
-	public Integer getTransactionId() {
-		return transactionId;
-	}
-
-	public String getTransactionType() {
-		return transactionType;
-	}
-
-	public LocalDate getTransactionDate() {
-		return transactionDate;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public String getDescription() {
-		return Description;
-	}
-
-	public void setTransactionId(Integer transactionId) {
-		this.transactionId = transactionId;
-	}
-
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
-	}
-
-	public void setTransactionDate(LocalDate transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public void setDescription(String description) {
-		Description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "Transaction [transactionId=" + transactionId + ", transactionType=" + transactionType
-				+ ", transactionDate=" + transactionDate + ", amount=" + amount + ", Description=" + Description + "]";
-	}
+	private List<Wallet> wallets = new ArrayList<>();
 	
-	
-	
-
 }
