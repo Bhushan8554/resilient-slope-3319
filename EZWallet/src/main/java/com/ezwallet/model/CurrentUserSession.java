@@ -21,6 +21,7 @@ public class CurrentUserSession {
 	private String UserId;
 	private String uuid;
 	private LocalDateTime localdatetime;
+
 	
 	
 //	public CurrentUserSession() {
