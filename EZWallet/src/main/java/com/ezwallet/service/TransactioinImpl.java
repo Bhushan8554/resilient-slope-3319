@@ -2,33 +2,38 @@ package com.ezwallet.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezwallet.exception.TransactionException;
+import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Beneficiary;
 import com.ezwallet.model.Customer;
 import com.ezwallet.model.Transaction;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.repository.TransactionRepo;
+import com.ezwallet.repository.WalletRepository;
 
 
 @Service
-public abstract class TransactioinImpl implements TransactionDao{
+public abstract class TransactioinImpl implements TransactionService{
 	
 	@Autowired
 	private TransactionRepo tRepo;
+	
+	@Autowired
+	private WalletRepository walletRepository;
 
 	@Override
-	public Transaction addTransaction(Transaction tran) throws TransactionException {
+	public Transaction addTransaction(Transaction tran) throws TransactionException, WalletException {
 		
-		if(tRepo.save(tran) != null) {
-	     	return tran;
-			
-		}else {
-			throw new TransactionException("Data is null");
-		}
+	Optional<Wallet> wallet=	walletRepository.findById(tran.getWallet().getWalletId());
+		if(!wallet.isPresent())throw new WalletException("Wallet id worng.");
+		
+		if(tRepo.save(tran) != null)return tran;
+	     	throw new TransactionException("Data is null");
 	}
 
 	@Override
@@ -47,6 +52,18 @@ public abstract class TransactioinImpl implements TransactionDao{
 		
 		if(allList.size()==0)throw new TransactionException("List is empty..");
 		return allList;
+	}
+	
+	@Override
+	public Transaction viewAllTransaction(Wallet wallet)throws TransactionException,WalletException{
+		
+	Optional<Wallet> findWallet=	walletRepository.findById(wallet.getWalletId());
+		if(!findWallet.isPresent())throw new WalletException("Wallet Id invalid.");
+		
+		
+		
+		return null;
+		
 	}
 
 

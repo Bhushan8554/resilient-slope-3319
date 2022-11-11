@@ -14,17 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.TransactionException;
+import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Transaction;
-import com.ezwallet.service.TransactionDao;
+import com.ezwallet.service.TransactionService;
 
 @RestController
 public class TransactionController {
 	
 	@Autowired
-	private TransactionDao trService;
+	private TransactionService trService;
 	
 	@PostMapping("/transaction")
-	public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction tran) throws TransactionException{
+	public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction tran) throws TransactionException, WalletException{
 		Transaction tr= trService.addTransaction(tran);
 		
 	return new	ResponseEntity<Transaction>(tr,HttpStatus.ACCEPTED);
