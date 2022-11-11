@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ezwallet.model.Transaction;
+import com.ezwallet.model.Wallet;
 
 
 @Repository
@@ -18,5 +19,7 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer>{
 	public List<Transaction> viewAllTransactionByDate(LocalDate from, LocalDate to);
 	
 	public List<Transaction> findBytransactionType(String type);
+	
+	public Transaction findByWallet(Wallet wallet);
 
 }

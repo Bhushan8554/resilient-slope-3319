@@ -1,8 +1,6 @@
 package com.ezwallet.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +31,7 @@ public class Transaction {
 	private double amount;
 	private String Description;
 	
-	private List<Wallet> wallets = new ArrayList<>();
+	@ManyToOne
+	private Wallet wallet;
 	
 }

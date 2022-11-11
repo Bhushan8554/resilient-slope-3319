@@ -66,6 +66,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		else {
 			throw new BeneficiaryException("Beneficiary not Exist");
 		}
+		return null;
 	}
 
 	private List<Beneficiary> findAllByWallet(Wallet wallet) {

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.TransactionException;
+import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Transaction;
+import com.ezwallet.model.Wallet;
 import com.ezwallet.service.TransactionDao;
 
 @RestController
@@ -25,9 +27,8 @@ public class TransactionController {
 	
 	@PostMapping("/transaction")
 	public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction tran) throws TransactionException{
-		Transaction tr= trService.addTransaction(tran);
-		
-	return new	ResponseEntity<Transaction>(tr,HttpStatus.ACCEPTED);
+		Transaction tr= trService.addTransaction(tran);	
+		return new	ResponseEntity<Transaction>(tr,HttpStatus.ACCEPTED);
 			
 	}
 	
@@ -35,7 +36,6 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> viewAllTransaction(@RequestParam LocalDate from,@RequestParam(required = false) LocalDate to) throws TransactionException{
 		
 		List<Transaction> allList=	trService.viewTransactionByDate(from, to);
-	
 		return new ResponseEntity<List<Transaction>>(allList,HttpStatus.ACCEPTED);
 	}
 	
@@ -43,8 +43,13 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> viewAllTransacationByType(@PathVariable("transactionType") String type) throws TransactionException{
 		
 		List<Transaction> allList=trService.viewAllTransactionByType(type);
-		
 		return new ResponseEntity<List<Transaction>>(allList,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/transactionbywallet")
+	public ResponseEntity<Transaction> findWithWallet(@RequestBody Wallet wallet) throws TransactionException, WalletException{
+		Transaction tar=	trService.viewAllTransaction(wallet);
+		return new ResponseEntity<Transaction>(tar,HttpStatus.ACCEPTED);
 	}
 
 }
