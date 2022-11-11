@@ -31,6 +31,7 @@ public class Transaction {
 	private double amount;
 	private String Description;
 	
+	
 	@ManyToOne
 	private Wallet wallet;
 	
