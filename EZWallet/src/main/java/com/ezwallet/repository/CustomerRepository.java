@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ezwallet.model.Customer;
-import com.ezwallet.model.Wallet;
+
 
 
 @Repository
@@ -18,6 +18,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	public List<Customer> findCustomerByMobile(String mobileNumber);
 	
 	
-	@Query("select w.balance from Customer c, Wallet w where c.customerId=?1")
-	public BigDecimal showWalletBalance(Integer id);
+	
 }

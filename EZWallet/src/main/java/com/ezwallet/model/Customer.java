@@ -1,6 +1,5 @@
 package com.ezwallet.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,8 +30,8 @@ public class Customer {
 	
 	@NotNull
 	@Size(min = 6, max = 8, message = "Password should contain  6 to 8 characters")
-	private String password;	
-
+	private String password;		
+	
 
 	public String getMobileNumber() {
 		return mobileNumber;
@@ -72,6 +71,8 @@ public class Customer {
 	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
 	}
+
+
 	
 	
 	
