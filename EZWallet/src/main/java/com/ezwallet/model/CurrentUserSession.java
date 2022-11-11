@@ -21,6 +21,8 @@ public class CurrentUserSession {
 	private String UserId;
 	private String uuid;
 	private LocalDateTime localdatetime;
+
+	
 	
 //	public CurrentUserSession() {
 //		super();
@@ -54,6 +56,6 @@ public class CurrentUserSession {
 //	public String toString() {
 //		return "CurrentUserSession [UserId=" + UserId + ", uuid=" + uuid + ", localdatetime=" + localdatetime + "]";
 //	}
-	
-	
+//	
+//	
 }
