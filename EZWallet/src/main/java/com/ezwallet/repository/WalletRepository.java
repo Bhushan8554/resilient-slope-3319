@@ -8,4 +8,5 @@ import com.ezwallet.model.Wallet;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Integer> {
 
+	
 }
