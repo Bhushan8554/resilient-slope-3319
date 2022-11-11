@@ -164,6 +164,17 @@ public class WalletServiceImpl implements WalletService{
 		walletRepo.save(wallet);
 		
 		
+		Transaction trans = new Transaction();
+		trans.setTransactionType("Bank transfer");
+		trans.setTransactionDate(LocalDate.now());
+		trans.setAmount(amount.doubleValue());
+		trans.setWallet(wallet);
+		trans.setDescription("Amount transfered to "+ targetMobile);
+		
+		transactionServe.addTransaction(trans);	
+		
+		
+		
 		return "Fund Transfered successfully...";
 	}
 	
