@@ -62,6 +62,11 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		
 		if(optional.isPresent()) {
 			List<Beneficiary> beneficiaries=findAllByWallet(optional.get().getWallet());
+			if(beneficiaries.isEmpty()) {
+				throw new BeneficiaryException("Beneficiary not found");
+			}else {
+				return beneficiaries;
+			}
 		}
 		else {
 			throw new BeneficiaryException("Beneficiary not Exist");
