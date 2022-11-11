@@ -21,39 +21,41 @@ public class CurrentUserSession {
 	private String UserId;
 	private String uuid;
 	private LocalDateTime localdatetime;
-	
-	public CurrentUserSession() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public CurrentUserSession(String userId, String uuid, LocalDateTime localdatetime) {
-		super();
-		UserId = userId;
-		this.uuid = uuid;
-		this.localdatetime = localdatetime;
-	}
-	public String getUserId() {
-		return UserId;
-	}
-	public void setUserId(String userId) {
-		UserId = userId;
-	}
-	public String getUuid() {
-		return uuid;
-	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-	public LocalDateTime getLocaldatetime() {
-		return localdatetime;
-	}
-	public void setLocaldatetime(LocalDateTime localdatetime) {
-		this.localdatetime = localdatetime;
-	}
-	@Override
-	public String toString() {
-		return "CurrentUserSession [UserId=" + UserId + ", uuid=" + uuid + ", localdatetime=" + localdatetime + "]";
-	}
+
 	
 	
+//	public CurrentUserSession() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+//	public CurrentUserSession(String userId, String uuid, LocalDateTime localdatetime) {
+//		super();
+//		UserId = userId;
+//		this.uuid = uuid;
+//		this.localdatetime = localdatetime;
+//	}
+//	public String getUserId() {
+//		return UserId;
+//	}
+//	public void setUserId(String userId) {
+//		UserId = userId;
+//	}
+//	public String getUuid() {
+//		return uuid;
+//	}
+//	public void setUuid(String uuid) {
+//		this.uuid = uuid;
+//	}
+//	public LocalDateTime getLocaldatetime() {
+//		return localdatetime;
+//	}
+//	public void setLocaldatetime(LocalDateTime localdatetime) {
+//		this.localdatetime = localdatetime;
+//	}
+//	@Override
+//	public String toString() {
+//		return "CurrentUserSession [UserId=" + UserId + ", uuid=" + uuid + ", localdatetime=" + localdatetime + "]";
+//	}
+//	
+//	
 }
