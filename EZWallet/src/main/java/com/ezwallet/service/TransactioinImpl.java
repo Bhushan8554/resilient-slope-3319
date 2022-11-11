@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
-import com.ezwallet.model.Beneficiary;
-import com.ezwallet.model.Customer;
 import com.ezwallet.model.Transaction;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.repository.TransactionRepo;
@@ -18,52 +16,61 @@ import com.ezwallet.repository.WalletRepository;
 
 
 @Service
-public abstract class TransactioinImpl implements TransactionService{
+public class TransactioinImpl implements TransactionService{
 	
 	@Autowired
-	private TransactionRepo tRepo;
+	private TransactionRepo transactionRepository;
 	
 	@Autowired
 	private WalletRepository walletRepository;
+	
+	
 
 	@Override
-	public Transaction addTransaction(Transaction tran) throws TransactionException, WalletException {
-		
-	Optional<Wallet> wallet=	walletRepository.findById(tran.getWallet().getWalletId());
+	public Transaction addTransaction(Transaction tran) throws TransactionException, WalletException {	
+		Optional<Wallet> wallet=	walletRepository.findById(tran.getWallet().getWalletId());
 		if(!wallet.isPresent())throw new WalletException("Wallet id worng.");
-		
-		if(tRepo.save(tran) != null)return tran;
+		if(transactionRepository.save(tran) != null)return tran;
 	     	throw new TransactionException("Data is null");
 	}
+	
+	
+	
 
 	@Override
 	public List<Transaction> viewTransactionByDate(LocalDate from, LocalDate to) throws TransactionException {
-
-		List<Transaction> dateList= tRepo.viewAllTransactionByDate(from, to);
-		
+		List<Transaction> dateList= transactionRepository.viewAllTransactionByDate(from, to);
 		if(dateList.size()==0)throw new TransactionException("No any Transaction Between this Date.");
 		return dateList;
 	}
-
+	
+	
+	
+	
+//	@Override
+//	public Transaction viewAllTransaction(Wallet wallet)throws TransactionException,WalletException{
+//		
+//	Optional<Wallet> findWallet=	walletRepository.findById(wallet.getWalletId());
+//		if(!findWallet.isPresent())throw new WalletException("Wallet Id invalid.");
+//		
+//		return null;
+//		
+//	}
+	
 	@Override
-	public List<Transaction> viewAllTransactionByType(String type) throws TransactionException {
+	public Transaction findByTransactionId(Integer id)throws TransactionException{
+		Optional<Transaction> transaction = transactionRepository.findById(id);
 		
-		List<Transaction> allList= tRepo.findBytransactionType(type);
+		if(!transaction.isPresent())throw new TransactionException("Invalid Id.");
+		return transaction.get();
 		
-		if(allList.size()==0)throw new TransactionException("List is empty..");
-		return allList;
 	}
 	
 	@Override
-	public Transaction viewAllTransaction(Wallet wallet)throws TransactionException,WalletException{
-		
-	Optional<Wallet> findWallet=	walletRepository.findById(wallet.getWalletId());
-		if(!findWallet.isPresent())throw new WalletException("Wallet Id invalid.");
-		
-		
-		
-		return null;
-		
+	public List<Transaction> findByTransactionType(String transactionType) throws TransactionException{
+		List<Transaction> listOTransactions = transactionRepository.findByTransactionType(transactionType);
+		if(listOTransactions.size()==0)throw new TransactionException("Transaction list Empty..");
+		return listOTransactions;
 	}
 
 
