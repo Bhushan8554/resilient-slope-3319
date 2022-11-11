@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BeneficiaryException;
 import com.ezwallet.model.Beneficiary;
+import com.ezwallet.model.Wallet;
 import com.ezwallet.service.BeneficiaryService;
 
 @RestController
@@ -45,6 +46,14 @@ public class BeneficiaryController {
 	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
 		
 		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewAllBeneficiary(beneficiary),HttpStatus.FOUND);
+		
+		
+	}
+	
+	@GetMapping("/beneficiariesbywallet")
+	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryByWalletMapping(@RequestBody Wallet wallet) throws BeneficiaryException{
+		
+		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.findAllByWallet(wallet),HttpStatus.FOUND);
 		
 		
 	}

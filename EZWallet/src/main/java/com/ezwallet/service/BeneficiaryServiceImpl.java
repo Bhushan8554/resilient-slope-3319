@@ -73,9 +73,16 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 	}
 
-	private List<Beneficiary> findAllByWallet(Wallet wallet) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Beneficiary> findAllByWallet(Wallet wallet) throws BeneficiaryException {
+		
+		List<Beneficiary> beneficiaries=beneficiaryDao.findByWallet(wallet);
+		if(beneficiaries.isEmpty()) {
+			throw new BeneficiaryException("Beneficiary not found");
+		}else {
+			return beneficiaries;
+		}
+		
+		
 	}
 
 }
