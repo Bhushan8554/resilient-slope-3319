@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.CustomerException;
+import com.ezwallet.exception.LogInException;
+import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Customer;
 import com.ezwallet.service.WalletService;
@@ -37,18 +39,18 @@ public class CustomerWalletController {
 	}
 	
 	@PostMapping("/transfermoneyfrombanktowallet/{accountno}/{amount}")
-	public ResponseEntity<String> transferMoneyFromBankToWallet(@PathVariable("accountno") Integer accountNo, @PathVariable("amount") Double amount) throws BankAccountException, CustomerException{
+	public ResponseEntity<String> transferMoneyFromBankToWallet(@PathVariable("accountno") Integer accountNo, @PathVariable("amount") Double amount, @PathVariable("key") String key) throws BankAccountException, CustomerException, TransactionException, WalletException, LogInException{
 		
-		String msg = walletService.addMoneyFromBankToWallet(accountNo, amount);
+		String msg = walletService.addMoneyFromBankToWallet(accountNo, amount, key);
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 	
 	@PostMapping("/fundtransfer/{mobile}/{name}/{amount}")
-	public ResponseEntity<String> fundtransfer(@PathVariable("mobile") String mobile, @PathVariable("name") String name, @PathVariable("amount") BigDecimal amount) throws WalletException, CustomerException{
+	public ResponseEntity<String> fundtransfer(@PathVariable("mobile") String mobile, @PathVariable("name") String name, @PathVariable("amount") BigDecimal amount, @PathVariable("key") String key) throws WalletException, CustomerException, LogInException, TransactionException{
 		
-		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, amount);
+		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, amount, key);
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}

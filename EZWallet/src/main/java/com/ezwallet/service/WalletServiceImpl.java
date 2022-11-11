@@ -3,6 +3,7 @@ package com.ezwallet.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.BeneficiaryException;
 import com.ezwallet.exception.CustomerException;
+import com.ezwallet.exception.LogInException;
+import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.BankAccount;
 import com.ezwallet.model.Beneficiary;
@@ -40,7 +43,7 @@ public class WalletServiceImpl implements WalletService{
 	public BankAccountDao bankRepo;
 	
 	@Autowired
-	public TransactionDao transactionServe;
+	public TransactionService transactionServe;
 	
 	@Autowired
 	public BeneficiaryDao beneficiaryRepo;
@@ -177,8 +180,6 @@ public class WalletServiceImpl implements WalletService{
 		
 		return "Fund Transfered successfully...";
 	}
-	
-	
 	
 	
 
