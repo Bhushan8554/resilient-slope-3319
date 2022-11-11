@@ -1,6 +1,6 @@
 package com.ezwallet.repository;
 
-import java.util.List;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +15,6 @@ public interface WalletRepository extends JpaRepository<Wallet, Integer> {
 	@Query("from Transaction t, Wallet e  where t")
 	public List<Transaction> viewAllTransactionsByWallet(Wallet wallet);
 
+	@Query("from Wallet w JOIN w.customer c where c.customerId=?1")
+	public Wallet showWalletDetails(Integer id); 
 }
