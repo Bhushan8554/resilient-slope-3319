@@ -37,7 +37,7 @@ public class LogInServiceImpl implements LogInService{
 			throw new LogInException("Wrong input!! Please Enter a valid mobile number...");
 		}
 		
-		Optional<CurrentUserSession> validCustomerSessionOpt =  sDao.findByUserId(existingCustomer.getMobileNumber());
+		Optional<CurrentUserSession> validCustomerSessionOpt =  sDao.findByUserId(existingCustomer.getCustomerId());
 		
 		if(validCustomerSessionOpt.isPresent()) {
 			

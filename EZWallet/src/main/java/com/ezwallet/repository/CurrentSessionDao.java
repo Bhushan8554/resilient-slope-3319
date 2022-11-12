@@ -14,6 +14,6 @@ public interface CurrentSessionDao extends JpaRepository<CurrentUserSession, Int
 	public CurrentUserSession findByUuid(String uuid);
 
 	@Query("from CurrentUserSession c where c.UserId=?1")
-	public Optional<CurrentUserSession> findByUserId(String mobileNumber);
+	public Optional<CurrentUserSession> findByUserId(Integer id);
 	
 }

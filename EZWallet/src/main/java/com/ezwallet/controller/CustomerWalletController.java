@@ -7,13 +7,16 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.CustomerException;
+import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Customer;
 import com.ezwallet.service.WalletService;
@@ -36,21 +39,37 @@ public class CustomerWalletController {
 		return new ResponseEntity<Customer>(cust, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/transfermoneyfrombanktowallet/{accountno}/{amount}")
-	public ResponseEntity<String> transferMoneyFromBankToWallet(@PathVariable("accountno") Integer accountNo, @PathVariable("amount") Double amount) throws BankAccountException, CustomerException{
+	@PostMapping("/transfermoneyfrombanktowallet")
+	public ResponseEntity<String> transferMoneyFromBankToWallet(@RequestParam("accountno") Integer accountNo, @RequestParam("amount") Double amount, @RequestParam("key") String key) throws BankAccountException, CustomerException, TransactionException, WalletException{
 		
-		String msg = walletService.addMoneyFromBankToWallet(accountNo, amount);
+		String msg = walletService.addMoneyFromBankToWallet(accountNo, amount, key);
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
 	
 	
-	@PostMapping("/fundtransfer/{mobile}/{name}/{amount}")
-	public ResponseEntity<String> fundtransfer(@PathVariable("mobile") String mobile, @PathVariable("name") String name, @PathVariable("amount") BigDecimal amount) throws WalletException, CustomerException{
+	@PostMapping("/fundtransfer")
+	public ResponseEntity<String> fundtransfer(@RequestParam("mobile") String mobile, @RequestParam("name") String name, @PathVariable("amount") BigDecimal amount, @RequestParam("key") String key) throws WalletException, CustomerException, TransactionException{
 		
-		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, amount);
+		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, amount, key);
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
+	}
+	
+	@GetMapping("/walletbalance")
+	public ResponseEntity<BigDecimal> showWalletBalance(@RequestParam("key") String key) throws CustomerException{
+		
+		BigDecimal balance = walletService.showWalletBalance(key);
+		
+		return new ResponseEntity<BigDecimal>(balance, HttpStatus.ACCEPTED);
+	}
+	
+	@PostMapping("/updateaccount")
+	public ResponseEntity<Customer> updateCustomerDetails(@Valid @RequestBody Customer customer, @RequestParam("key") String key) throws CustomerException{
+		
+		Customer cust = walletService.updateCustomerDetails(customer, key);
+		
+		return new ResponseEntity<Customer>(cust, HttpStatus.ACCEPTED);
 	}
 	
 	
