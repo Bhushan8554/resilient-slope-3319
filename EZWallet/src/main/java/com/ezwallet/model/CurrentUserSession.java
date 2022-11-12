@@ -16,9 +16,10 @@ import lombok.ToString;
 @ToString
 public class CurrentUserSession {
  
+
 	@Id
 	@Column(unique=true)
-	private String UserId;
+	private Integer UserId;
 	private String uuid;
 	private LocalDateTime localdatetime;
 
@@ -55,7 +56,7 @@ public class CurrentUserSession {
 //	@Override
 //	public String toString() {
 //		return "CurrentUserSession [UserId=" + UserId + ", uuid=" + uuid + ", localdatetime=" + localdatetime + "]";
-//	}
+//	}s
 //	
 //	
 }
