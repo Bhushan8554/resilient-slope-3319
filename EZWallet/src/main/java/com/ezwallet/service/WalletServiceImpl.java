@@ -106,25 +106,13 @@ public class WalletServiceImpl implements WalletService{
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
-		if(accounts.size()==0) throw new BankAccountException("Add bank account for transaction");
-		
-		BankAccount acct = new BankAccount();
-		boolean flag=false;
-		
-		for(int i=0;i<accounts.size();i++) {
-		if(((accounts.get(i).getAccountNo()).toString()).equals(accountNo.toString())) {
-				
-				acct.setAccountNo(accounts.get(i).getAccountNo());
-				acct.setBalance(accounts.get(i).getBalance());
-				acct.setBankName(accounts.get(i).getBankName());
-				acct.setIFSCCode(accounts.get(i).getIFSCCode());
-				acct.setWallet(accounts.get(i).getWallet());
-				flag=true;
+
 				break;
 			}
+			
 		}
 		
-		if(!flag) throw new BankAccountException("Bank account number does not match the data of saved accounts");
+		if(acct==null) throw new BankAccountException("Bank account number does not match the data of saved accounts");
 				
 		if(acct.getBalance() < amount) throw new BankAccountException("Insufficient balance in account");
 		

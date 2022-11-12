@@ -22,7 +22,7 @@ import com.ezwallet.service.BankAccountService;
 
 
 @RestController
-@RequestMapping("/bankaccount")
+@RequestMapping("/bank")
 public class BankAccountController {
 	
 	@Autowired
@@ -62,7 +62,7 @@ public class BankAccountController {
 
 	
 	
-	@DeleteMapping("/bankaccount")
+	@DeleteMapping("/deltebank")
 	public ResponseEntity<Wallet> removeAccountMapping(@RequestBody BankAccount bankAccount) throws BankAccountException{
 		
 		Wallet wallet= bankAccountService.removeAccount(bankAccount);
