@@ -38,10 +38,13 @@ public class TransactioinImpl implements TransactionService{
 	
 
 	@Override
-	public List<Transaction> viewTransactionByDate(LocalDate from, LocalDate to) throws TransactionException {
-		List<Transaction> dateList= transactionRepository.viewAllTransactionByDate(from, to);
-		if(dateList.size()==0)throw new TransactionException("No any Transaction Between this Date.");
-		return dateList;
+	public List<Transaction> viewTransactionByDate(LocalDate date, LocalDate two)throws TransactionException {
+		LocalDate currentDate=LocalDate.now();
+		if(date.isAfter(currentDate))throw new TransactionException("First Date is future.");
+		if(two.isAfter(currentDate))throw new TransactionException("Second Date is future.");
+		if(date.isAfter(two)) throw new TransactionException("Frist date is invalid.");
+		List<Transaction> listOfTransactions= transactionRepository.findByDateBetween(date, two);
+		return listOfTransactions;
 	}
 	
 	

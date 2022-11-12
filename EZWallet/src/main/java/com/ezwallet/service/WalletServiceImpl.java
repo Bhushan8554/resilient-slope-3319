@@ -40,7 +40,7 @@ public class WalletServiceImpl implements WalletService{
 	public BankAccountDao bankRepo;
 	
 	@Autowired
-	public TransactionDao transactionServe;
+	public TransactionRepo transactionServe;
 	
 	@Autowired
 	public BeneficiaryDao beneficiaryRepo;

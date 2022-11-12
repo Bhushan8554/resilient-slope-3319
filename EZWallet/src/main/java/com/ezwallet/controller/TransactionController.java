@@ -37,10 +37,12 @@ public class TransactionController {
 	
 	
 	
-	@GetMapping("/transactionbydate")
-	public ResponseEntity<List<Transaction>> viewAllTransaction(@RequestParam LocalDate from,@RequestParam(required = false) LocalDate to) throws TransactionException{
-		List<Transaction> allList=	transactionService.viewTransactionByDate(from, to);
-		return new ResponseEntity<List<Transaction>>(allList,HttpStatus.ACCEPTED);
+	@GetMapping("transactionbytwodate")
+	public ResponseEntity<List<Transaction>> viewByTwoDate(@RequestParam("one") String one, @RequestParam("two")  String two) throws TransactionException{
+		LocalDate firstDate= LocalDate.parse(one);
+		LocalDate secondDate = LocalDate.parse(two);
+		List<Transaction> listOTransactions = transactionService.viewTransactionByDate(firstDate, secondDate);
+		return new ResponseEntity<List<Transaction>>(listOTransactions,HttpStatus.ACCEPTED);	
 	}
 	
 	
@@ -74,6 +76,9 @@ public class TransactionController {
 		List<Transaction>  listOfTransactions = transactionService.viewAllTransaction();
 		return new ResponseEntity<List<Transaction>>(listOfTransactions, HttpStatus.OK);
 	}
+	
+	
+	
 
 	@GetMapping("/transactionbydate/{date}")
 	public ResponseEntity<List<Transaction>> viewByDate(@RequestParam("date") String date) throws TransactionException{
