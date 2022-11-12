@@ -35,7 +35,10 @@ public class BankAccount {
 	
 	
 	@ManyToOne(cascade= CascadeType.ALL)
+//	@JoinColumn(name = "wid",referencedColumnName = "walletId")
 	private Wallet wallet;
+	
+	
 
 
 	public Integer getAccountNo() {

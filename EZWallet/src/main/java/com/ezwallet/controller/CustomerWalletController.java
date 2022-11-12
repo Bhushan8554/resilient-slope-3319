@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,6 @@ import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Customer;
 import com.ezwallet.service.WalletService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
 @RestController
@@ -49,9 +49,9 @@ public class CustomerWalletController {
 	
 	
 	@PostMapping("/fundtransfer")
-	public ResponseEntity<String> fundtransfer(@RequestParam("mobile") String mobile, @RequestParam("name") String name, @PathVariable("amount") BigDecimal amount, @RequestParam("key") String key) throws WalletException, CustomerException, TransactionException{
-		
-		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, amount, key);
+	public ResponseEntity<String> fundtransfer(@RequestParam("mobile") String mobile, @RequestParam("name") String name, @RequestParam("amount") Double amount, @RequestParam("key") String key) throws WalletException, CustomerException, TransactionException{
+		BigDecimal val = BigDecimal.valueOf(amount);
+		String msg = walletService.fundTransferToAnotherMobileNumber(mobile, name, val, key);
 		
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}

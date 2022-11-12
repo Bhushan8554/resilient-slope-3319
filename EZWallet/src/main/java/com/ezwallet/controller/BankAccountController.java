@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.BankAccount;
+import com.ezwallet.model.BankAccountDTO;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.service.BankAccountService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/bankaccount")
@@ -27,18 +28,16 @@ public class BankAccountController {
 	@Autowired
 	private BankAccountService bankAccountService;
 	
-	@PostMapping("/bankaccount/{key}")
+	@PostMapping("/bankacc/{key}")
 	public ResponseEntity<BankAccount> getBankAccountMapping(@PathVariable String key, @RequestBody Wallet wallet) throws BankAccountException, CustomerException{
-		BankAccount bacc=bankAccountService.viewAccount(key,wallet);
-		
-		
+		BankAccount bacc=bankAccountService.viewAccount(key,wallet);	
 		ResponseEntity<BankAccount> resBacc= new ResponseEntity<>(bacc,HttpStatus.FOUND);
-		
 		return resBacc;
-		
-		
+			
 	}
 
+	
+	
 	@PostMapping("/bankaccounts/{key}")
 	public ResponseEntity<List<BankAccount>> getAllBankAccountMapping(@PathVariable String key, @RequestBody Wallet wallet) throws BankAccountException, CustomerException{
 		
@@ -52,7 +51,7 @@ public class BankAccountController {
 	
 	
 	@PostMapping("/bankaccount/{key}")
-	public ResponseEntity<Wallet> addAccountMapping(@PathVariable String key, @RequestBody BankAccount bankAccount) throws BankAccountException, CustomerException{
+	public ResponseEntity<Wallet> addAccountMapping(@PathVariable String key, @RequestBody BankAccountDTO bankAccount) throws BankAccountException, CustomerException{
 		
 		Wallet wallet= bankAccountService.addAccount(key,bankAccount);
 		
@@ -60,6 +59,8 @@ public class BankAccountController {
 		
 		return resWallet;
 	}
+
+	
 	
 	@DeleteMapping("/bankaccount")
 	public ResponseEntity<Wallet> removeAccountMapping(@RequestBody BankAccount bankAccount) throws BankAccountException{
