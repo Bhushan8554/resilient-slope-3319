@@ -2,6 +2,8 @@ package com.ezwallet.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BeneficiaryException;
+import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.Beneficiary;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.service.BeneficiaryService;
@@ -26,42 +29,44 @@ public class BeneficiaryController {
 	BeneficiaryService beneficiaryService;
 	
 	
-	@PostMapping("/beneficiaries")
-	public ResponseEntity<Beneficiary> addBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
-		
-		return new ResponseEntity<Beneficiary>(beneficiaryService.addBeneficiary(beneficiary),HttpStatus.ACCEPTED);
-		
-		
-	}
+//	@PostMapping("/beneficiaries")
+//	public ResponseEntity<Beneficiary> addBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
+//		
+//		return new ResponseEntity<Beneficiary>(beneficiaryService.addBeneficiary(beneficiary),HttpStatus.ACCEPTED);
+//		
+//		
+//	}
+//	
 	
 	@DeleteMapping("/beneficiaries")
-	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
+	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@Valid@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
 		
 		return new ResponseEntity<Beneficiary>(beneficiaryService.deleteBeneficiary(beneficiary),HttpStatus.OK);
 		
 		
 	}
 	
-	@GetMapping("/beneficiaries")
-	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
-		
-		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewAllBeneficiary(beneficiary),HttpStatus.FOUND);
-		
-		
-	}
+//	@GetMapping("/beneficiaries")
+//	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
+//		
+//		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewAllBeneficiary(beneficiary),HttpStatus.FOUND);
+//		
+//		
+//	}
 	
-	@GetMapping("/beneficiariesbywallet")
-	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryByWalletMapping(@RequestBody Wallet wallet) throws BeneficiaryException{
+	
+	@PostMapping("/beneficiariesbywallet")
+	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryByWalletMapping(@Valid@RequestBody Wallet wallet) throws BeneficiaryException{
 		
 		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.findAllByWallet(wallet),HttpStatus.FOUND);
 		
 		
 	}
 	
-	@GetMapping("/beneficiaries/{name}")
-	public ResponseEntity<List<Beneficiary>> getBeneneficiaryMapping(@PathVariable String name) throws BeneficiaryException{
+	@GetMapping("/beneficiaries/{name}/{key}")
+	public ResponseEntity<List<Beneficiary>> getBeneneficiaryMapping(@PathVariable String name,@PathVariable String key) throws BeneficiaryException, CustomerException{
 		
-		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewBeneficiary(name),HttpStatus.FOUND);
+		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewBeneficiary(name,key),HttpStatus.FOUND);
 		
 		
 	}
