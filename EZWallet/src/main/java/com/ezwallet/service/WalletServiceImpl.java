@@ -154,7 +154,7 @@ public class WalletServiceImpl implements WalletService{
 		
 		Beneficiary beneficiary = new Beneficiary(targetMobile, Name, wallet);
 		
-		List<Beneficiary> beneficiaries = beneficiaryRepo.findByWallet(wallet);
+		List<Beneficiary> beneficiaries = beneficiaryRepo.findByWallet(wallet.getWalletId());
 		
 		if(!beneficiaries.contains(beneficiary)) beneficiaryRepo.save(beneficiary);
 		

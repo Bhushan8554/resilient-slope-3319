@@ -12,7 +12,11 @@ import com.ezwallet.model.Wallet;
 @Repository
 public interface BeneficiaryDao extends JpaRepository<Beneficiary, String>{
 	
-	public List<Beneficiary> findByName(String name);
+	@Query(value = "from Beneficiary b INNER JOIN b.wallet w where b.name =?1 AND w.walletId=?2")
+	public List<Beneficiary> findByNameWallet(Integer walletId,String name);
 	
-	public List<Beneficiary> findByWallet(Wallet wallet);
+	@Query(value = "from Beneficiary b INNER JOIN b.wallet w where w.walletId=?1")
+	public List<Beneficiary> findByWallet(Integer walletId);
+	
+	
 }

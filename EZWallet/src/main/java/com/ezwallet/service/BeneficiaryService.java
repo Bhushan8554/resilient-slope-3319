@@ -3,6 +3,7 @@ package com.ezwallet.service;
 import java.util.List;
 
 import com.ezwallet.exception.BeneficiaryException;
+import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.Beneficiary;
 import com.ezwallet.model.Wallet;
 
@@ -13,9 +14,9 @@ public interface BeneficiaryService {
 	
 	public Beneficiary deleteBeneficiary(Beneficiary beneficiary) throws BeneficiaryException;
 	
-	public List<Beneficiary> viewBeneficiary(String name) throws BeneficiaryException;
+	public List<Beneficiary> viewBeneficiary(String name,String key) throws BeneficiaryException, CustomerException;
 	
 	public List<Beneficiary> findAllByWallet(Wallet wallet) throws BeneficiaryException;
 	
-	public List<Beneficiary> viewAllBeneficiary(Beneficiary beneficiary) throws BeneficiaryException;
+	//public List<Beneficiary> viewAllBeneficiary(Beneficiary beneficiary) throws BeneficiaryException;
 }

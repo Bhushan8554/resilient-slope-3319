@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezwallet.exception.BankAccountException;
+import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.BankAccount;
+import com.ezwallet.model.CurrentUserSession;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.repository.BankAccountDao;
+import com.ezwallet.repository.CurrentSessionDao;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService{
@@ -17,10 +20,18 @@ public class BankAccountServiceImpl implements BankAccountService{
 	@Autowired
 	BankAccountDao baccDao;
 	
-	
+	@Autowired
+	CurrentSessionDao currentSessionDao;
 
 	@Override
-	public Wallet addAccount(BankAccount bacc)  throws BankAccountException{
+	public Wallet addAccount(String key,BankAccount bacc)  throws BankAccountException,CustomerException{
+		
+        CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
+		
 		Wallet wallet= null;
 		Optional<BankAccount> opt = baccDao.findById(bacc.getAccountNo());
 				
@@ -35,6 +46,8 @@ public class BankAccountServiceImpl implements BankAccountService{
 
 	@Override
 	public Wallet removeAccount(BankAccount bacc) throws BankAccountException{
+		
+		
 		Wallet wallet= null;
 		Optional<BankAccount> opt= baccDao.findById(bacc.getAccountNo());
 		
@@ -48,7 +61,13 @@ public class BankAccountServiceImpl implements BankAccountService{
 	}
 
 	@Override
-	public BankAccount viewAccount(Wallet wallet) throws BankAccountException{
+	public BankAccount viewAccount(String key,Wallet wallet) throws BankAccountException,CustomerException{
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
 		
 		BankAccount bacc= baccDao.findByWallet(wallet);
 		
@@ -61,7 +80,13 @@ public class BankAccountServiceImpl implements BankAccountService{
 	}
 
 	@Override
-	public List<BankAccount> viewAllAccount(Wallet wallet) throws BankAccountException{
+	public List<BankAccount> viewAllAccount(String key,Wallet wallet) throws BankAccountException,CustomerException{
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
 		
 		
 		
