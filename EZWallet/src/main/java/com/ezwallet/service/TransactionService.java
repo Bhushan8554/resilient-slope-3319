@@ -11,12 +11,12 @@ import com.ezwallet.model.Wallet;
 public interface TransactionService {
 	
 	public Transaction addTransaction(Transaction tran) throws TransactionException,WalletException;
-//	public Transaction viewAllTransaction(Wallet wallet)throws TransactionException,WalletException;
 	public List<Transaction> viewTransactionByDate(LocalDate from, LocalDate to) throws TransactionException;
 	public List<Transaction> findByTransactionType(String transactionType) throws TransactionException;
-	
+	public List<Transaction> findByWallet(Wallet wallet) throws TransactionException, WalletException;
 	
 	public Transaction findByTransactionId(Integer id)throws TransactionException;
-	
+	public List<Transaction> viewAllTransaction()throws TransactionException;
+	public List<Transaction> findByDate(LocalDate date)throws TransactionException;
 	
 }

@@ -14,11 +14,14 @@ import com.ezwallet.model.Transaction;
 public interface TransactionRepo extends JpaRepository<Transaction, Integer>{
 	
 	
-	@Query("from Transaction WHERE transactionDate BETWEEN ?1 AND ?2")
+	@Query(value =  "from Transaction WHERE transactionDate BETWEEN ?1 AND ?2")
 	public List<Transaction> viewAllTransactionByDate(LocalDate from, LocalDate to);
 	
 	public List<Transaction> findByTransactionType(String transactionType);
 	
+	@Query(value = "from Transaction t INNER JOIN t.wallet w where w.walletId=?1")
+	public List<Transaction> findByWallet(Integer walletId);
 	
+	public List<Transaction> findByTransactionDate(LocalDate date);
 
 }
