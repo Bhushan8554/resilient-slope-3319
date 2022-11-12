@@ -3,13 +3,15 @@ package com.ezwallet.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezwallet.exception.BankAccountException;
-import com.ezwallet.exception.BeneficiaryException;
 import com.ezwallet.exception.CustomerException;
+import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.BankAccount;
 import com.ezwallet.model.Beneficiary;
@@ -21,7 +23,6 @@ import com.ezwallet.repository.BankAccountDao;
 import com.ezwallet.repository.BeneficiaryDao;
 import com.ezwallet.repository.CurrentSessionDao;
 import com.ezwallet.repository.CustomerRepository;
-import com.ezwallet.repository.TransactionRepo;
 import com.ezwallet.repository.WalletRepository;
 
 @Service
@@ -40,10 +41,13 @@ public class WalletServiceImpl implements WalletService{
 	public BankAccountDao bankRepo;
 	
 	@Autowired
-	public TransactionDao transactionServe;
+	public TransactionService transactionServe;
 	
 	@Autowired
-	public BeneficiaryDao beneficiaryRepo;
+	public BeneficiaryDao beneficiaryRepo;	
+	
+	@Autowired
+	public CurrentSessionDao currentSessionRepo;
 	
 	@Override
 	public Customer createCustomerAccount(Customer customer) throws CustomerException {
@@ -63,15 +67,17 @@ public class WalletServiceImpl implements WalletService{
 	}
 
 	@Override
-	public BigDecimal showWalletBalance(String mobileNumber) throws CustomerException {
+	public BigDecimal showWalletBalance(String key) throws CustomerException {
 		
-		List<Customer> cust = customerRepo.findCustomerByMobile(mobileNumber);
+		if(key==null) throw new CustomerException("Please log in to continue");
 		
-		if(cust.isEmpty()) throw new CustomerException("Customer does not exist. Please create account");
+		CurrentUserSession user = currentSessionRepo.findByUuid(key);
+		
+		if(user==null) throw new CustomerException("Please log in to continue");		
 		
 		else {
 			
-			Integer id = cust.get(0).getCustomerId();
+			Integer id = user.getUserId();
 			Wallet wl = walletRepo.showWalletDetails(id);
 			
 			return wl.getBalance();
@@ -81,17 +87,17 @@ public class WalletServiceImpl implements WalletService{
 	}
 
 	@Override
-	public String addMoneyFromBankToWallet(Integer accountNo, Double amount) throws BankAccountException, CustomerException {
+	public String addMoneyFromBankToWallet(Integer accountNo, Double amount, String key) throws BankAccountException, CustomerException, TransactionException, WalletException {
 		
+		if(key==null) throw new CustomerException("Please log in to continue");
 		
-//		checking if user logged in or not
-		List<CurrentUserSession> currUser = user.findAll();
+		CurrentUserSession user = currentSessionRepo.findByUuid(key);
 		
-		if(currUser.isEmpty()) throw new CustomerException("Please Log in to continue");
+		if(user==null) throw new CustomerException("Please log in to continue");
 		
 		
 //		Checking bank Accounts
-		Integer id = currUser.get(0).getUserId();
+		Integer id = user.getUserId();
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
@@ -132,14 +138,18 @@ public class WalletServiceImpl implements WalletService{
 	}
 
 	@Override
-	public String fundTransferToAnotherMobileNumber(String targetMobile, String Name, BigDecimal amount)
-			throws WalletException, CustomerException {
-	
-		List<CurrentUserSession> currUser = user.findAll();
+	public String fundTransferToAnotherMobileNumber(String targetMobile, String Name, BigDecimal amount, String key)
+			throws WalletException, CustomerException, TransactionException {
+
+		if(key==null) throw new CustomerException("Please log in to continue");
 		
-		if(currUser.isEmpty()) throw new CustomerException("Please Log in to continue");
+		CurrentUserSession user = currentSessionRepo.findByUuid(key);
 		
-		Integer id = currUser.get(0).getUserId();
+		if(user==null) throw new CustomerException("Please log in to continue");
+		
+		
+//		Checking beneficiary
+		Integer id = user.getUserId();
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		Beneficiary beneficiary = new Beneficiary(targetMobile, Name, wallet);
@@ -169,13 +179,39 @@ public class WalletServiceImpl implements WalletService{
 		trans.setTransactionDate(LocalDate.now());
 		trans.setAmount(amount.doubleValue());
 		trans.setWallet(wallet);
-		trans.setDescription("Amount transfered to "+ targetMobile);
+		trans.setDescription(amount +" transfered to "+ targetMobile);
 		
 		transactionServe.addTransaction(trans);	
 		
 		
 		
 		return "Fund Transfered successfully...";
+	}
+
+	@Override
+	public Customer updateCustomerDetails(Customer customer, String key) throws CustomerException {
+		
+		if(key==null) throw new CustomerException("Please log in to continue");
+		
+		CurrentUserSession user = currentSessionRepo.findByUuid(key);
+		
+		if(user==null) throw new CustomerException("Please log in to continue");
+		
+		
+		Optional<Customer> cust = customerRepo.findById(user.getUserId());
+		
+		if(!cust.isPresent()) throw new CustomerException("Customer does not exist");
+		
+		List<Customer> custList = cust.stream().collect(Collectors.toList());
+		
+		Customer customerToUpdate = custList.get(0);
+		
+		customerToUpdate.setMobileNumber(customer.getMobileNumber());
+		
+		customerToUpdate.setMobileNumber(customer.getName());
+		customerToUpdate.setMobileNumber(customer.getPassword());
+		
+		return	customerRepo.save(customerToUpdate);
 	}
 	
 	

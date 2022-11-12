@@ -37,7 +37,7 @@ public class LogInServiceImpl implements LogInService{
 			throw new LogInException("Wrong input!! Please Enter a valid mobile number...");
 		}
 		
-		Optional<CurrentUserSession> validCustomerSessionOpt =  sDao.findByUserId(existingCustomer.getMobileNumber());
+		Optional<CurrentUserSession> validCustomerSessionOpt =  sDao.findByUserId(existingCustomer.getCustomerId());
 		
 		if(validCustomerSessionOpt.isPresent()) {
 			
@@ -49,7 +49,7 @@ public class LogInServiceImpl implements LogInService{
 			
 			String key= RandomString.make(6);
 			
-			CurrentUserSession currentUserSession = new CurrentUserSession(existingCustomer.getMobileNumber(),key,LocalDateTime.now());
+			CurrentUserSession currentUserSession = new CurrentUserSession(existingCustomer.getCustomerId(),key,LocalDateTime.now());
 			
 			sDao.save(currentUserSession);
 
@@ -75,7 +75,5 @@ public class LogInServiceImpl implements LogInService{
 		
 		return "You are Logged Out !";
 	}
-
-	
 
 }

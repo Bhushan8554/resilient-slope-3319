@@ -18,7 +18,7 @@ public class CurrentUserSession {
  
 	@Id
 	@Column(unique=true)
-	private String UserId;
+	private Integer UserId;
 	private String uuid;
 	private LocalDateTime localdatetime;
 
