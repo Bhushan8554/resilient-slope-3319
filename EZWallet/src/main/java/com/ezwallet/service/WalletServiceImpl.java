@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.CustomerException;
@@ -86,6 +89,7 @@ public class WalletServiceImpl implements WalletService{
 		
 		
 	}
+	
 
 	@Override
 	public String addMoneyFromBankToWallet(Integer accountNo, Double amount, String key) throws BankAccountException, CustomerException, TransactionException, WalletException {
@@ -102,25 +106,25 @@ public class WalletServiceImpl implements WalletService{
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
-		System.out.println(accounts);
-		System.out.println(accountNo);
 		if(accounts.size()==0) throw new BankAccountException("Add bank account for transaction");
 		
 		BankAccount acct = new BankAccount();
-//		boolean flag=false;
+		boolean flag=false;
 		
 		for(int i=0;i<accounts.size();i++) {
-			System.out.println(accounts.get(i));
-			if(accounts.get(i).getAccountNo()==accountNo) {
+		if(((accounts.get(i).getAccountNo()).toString()).equals(accountNo.toString())) {
 				
 				acct.setAccountNo(accounts.get(i).getAccountNo());
-				acct=accounts.get(i);
-				
-				
+				acct.setBalance(accounts.get(i).getBalance());
+				acct.setBankName(accounts.get(i).getBankName());
+				acct.setIFSCCode(accounts.get(i).getIFSCCode());
+				acct.setWallet(accounts.get(i).getWallet());
+				flag=true;
+				break;
 			}
 		}
 		
-		if(acct==null) throw new BankAccountException("Bank account number does not match the data of saved accounts");
+		if(!flag) throw new BankAccountException("Bank account number does not match the data of saved accounts");
 				
 		if(acct.getBalance() < amount) throw new BankAccountException("Insufficient balance in account");
 		
