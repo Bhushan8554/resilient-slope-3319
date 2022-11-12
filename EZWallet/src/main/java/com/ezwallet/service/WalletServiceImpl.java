@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.ezwallet.exception.BankAccountException;
 import com.ezwallet.exception.CustomerException;
@@ -89,7 +86,6 @@ public class WalletServiceImpl implements WalletService{
 		
 		
 	}
-	
 
 	@Override
 	public String addMoneyFromBankToWallet(Integer accountNo, Double amount, String key) throws BankAccountException, CustomerException, TransactionException, WalletException {
@@ -106,7 +102,16 @@ public class WalletServiceImpl implements WalletService{
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
-
+		System.out.println(accounts);
+		System.out.println(accountNo);
+		if(accounts.size()==0) throw new BankAccountException("Add bank account for transaction");
+		
+		BankAccount acct=null;
+//		boolean flag=false;
+		
+		for(BankAccount b : accounts) {
+			if((b.getAccountNo().toString()).equals(accountNo.toString())) {
+				acct=b;
 				break;
 			}
 			
