@@ -19,9 +19,9 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer>{
 	@Query(value = "from Transaction t INNER JOIN t.wallet w where w.walletId=?1")
 	public List<Transaction> findByWallet(Integer walletId);
 	
-	public List<Transaction> findByTransactionDate(LocalDate date);
+	public List<Transaction> findByTransactionDate(LocalDate transactionDate);
 	
-	List<Transaction> findByDateBetween(LocalDate from, LocalDate to);
+	public List<Transaction> findByTransactionDateBetween(LocalDate from, LocalDate to);
 
 	
 

@@ -43,7 +43,7 @@ public class TransactioinImpl implements TransactionService{
 		if(date.isAfter(currentDate))throw new TransactionException("First Date is future.");
 		if(two.isAfter(currentDate))throw new TransactionException("Second Date is future.");
 		if(date.isAfter(two)) throw new TransactionException("Frist date is invalid.");
-		List<Transaction> listOfTransactions= transactionRepository.findByDateBetween(date, two);
+		List<Transaction> listOfTransactions= transactionRepository.findByTransactionDateBetween(date, two);
 		return listOfTransactions;
 	}
 	

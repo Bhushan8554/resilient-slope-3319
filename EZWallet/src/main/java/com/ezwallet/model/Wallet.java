@@ -29,25 +29,25 @@ public class Wallet {
 	@JoinColumn(name = "customer_Id")
 	private Customer customer;
 	
-	public Integer getWalletId() {
-		return walletId;
-	}
-	public void setWalletId(Integer walletId) {
-		this.walletId = walletId;
-	}
-	public BigDecimal getBalance() {
-		return balance;
-	}
-	public void setBalance(BigDecimal balance) {
-		this.balance = balance;
-	}
-	public Customer getCustomer() {
-		return customer;
-	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-	
-	
+//	public Integer getWalletId() {
+//		return walletId;
+//	}
+//	public void setWalletId(Integer walletId) {
+//		this.walletId = walletId;
+//	}
+//	public BigDecimal getBalance() {
+//		return balance;
+//	}
+//	public void setBalance(BigDecimal balance) {
+//		this.balance = balance;
+//	}
+//	public Customer getCustomer() {
+//		return customer;
+//	}
+//	public void setCustomer(Customer customer) {
+//		this.customer = customer;
+//	}
+//	
+//	
 	
 }
