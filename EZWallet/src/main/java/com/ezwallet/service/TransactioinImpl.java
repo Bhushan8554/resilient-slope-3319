@@ -38,24 +38,31 @@ public class TransactioinImpl implements TransactionService{
 	
 
 	@Override
-	public List<Transaction> viewTransactionByDate(LocalDate from, LocalDate to) throws TransactionException {
-		List<Transaction> dateList= transactionRepository.viewAllTransactionByDate(from, to);
-		if(dateList.size()==0)throw new TransactionException("No any Transaction Between this Date.");
-		return dateList;
+	public List<Transaction> viewTransactionByDate(LocalDate date, LocalDate two)throws TransactionException {
+		LocalDate currentDate=LocalDate.now();
+		if(date.isAfter(currentDate))throw new TransactionException("First Date is future.");
+		if(two.isAfter(currentDate))throw new TransactionException("Second Date is future.");
+		if(date.isAfter(two)) throw new TransactionException("Frist date is invalid.");
+		List<Transaction> listOfTransactions= transactionRepository.findByDateBetween(date, two);
+		return listOfTransactions;
 	}
 	
 	
 	
 	
-//	@Override
-//	public Transaction viewAllTransaction(Wallet wallet)throws TransactionException,WalletException{
-//		
-//	Optional<Wallet> findWallet=	walletRepository.findById(wallet.getWalletId());
-//		if(!findWallet.isPresent())throw new WalletException("Wallet Id invalid.");
-//		
-//		return null;
-//		
-//	}
+	@Override
+	public List<Transaction> findByWallet(Wallet wallet) throws TransactionException, WalletException {
+		Optional<Wallet> wall= walletRepository.findById(wallet.getWalletId());
+		System.out.println(wall);
+		if(!wall.isPresent())throw new WalletException("Wallet id Invalid.");
+		List<Transaction> listTransactions= transactionRepository.findByWallet(wallet.getWalletId());
+		if(listTransactions.size()==0)throw new TransactionException("List is empty");
+		return listTransactions;
+	}
+	
+	
+	
+	
 	
 	@Override
 	public Transaction findByTransactionId(Integer id)throws TransactionException{
@@ -71,6 +78,28 @@ public class TransactioinImpl implements TransactionService{
 		List<Transaction> listOTransactions = transactionRepository.findByTransactionType(transactionType);
 		if(listOTransactions.size()==0)throw new TransactionException("Transaction list Empty..");
 		return listOTransactions;
+	}
+
+
+
+
+	@Override
+	public List<Transaction> viewAllTransaction() throws TransactionException {
+		List<Transaction> listTransactions= transactionRepository.findAll();
+		if(listTransactions.size()==0)throw new TransactionException("No any type transaction.");
+		return listTransactions;
+	}
+
+
+
+
+	@Override
+	public List<Transaction> findByDate(LocalDate date) throws TransactionException {
+		LocalDate currentDate=LocalDate.now();
+		if(date.isAfter(currentDate))throw new TransactionException("Date is future");
+		List<Transaction> listOfTransactions= transactionRepository.findByTransactionDate(date);
+		if(listOfTransactions.size()==0)throw new TransactionException("List is Empty.");
+		return listOfTransactions;
 	}
 
 
