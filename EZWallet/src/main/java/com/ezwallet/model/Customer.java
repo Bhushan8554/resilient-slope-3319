@@ -32,48 +32,48 @@ public class Customer {
 	@Size(min = 6, max = 8, message = "Password should contain  6 to 8 characters")
 	private String password;		
 	
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	public Integer getCustomerId() {
-		return customerId;
-	}
-
-
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
-	}
-
-
-	
-	
+//
+//	public String getMobileNumber() {
+//		return mobileNumber;
+//	}
+//
+//
+//	public void setMobileNumber(String mobileNumber) {
+//		this.mobileNumber = mobileNumber;
+//	}
+//
+//
+//	public String getName() {
+//		return name;
+//	}
+//
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
+//
+//
+//	public Integer getCustomerId() {
+//		return customerId;
+//	}
+//
+//
+//	public void setCustomerId(Integer customerId) {
+//		this.customerId = customerId;
+//	}
+//
+//
+//	
+//	
 	
 }

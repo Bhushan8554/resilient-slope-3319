@@ -59,11 +59,12 @@ public class WalletServiceImpl implements WalletService{
 		else  {		
 			Wallet wallet = new Wallet();
 			wallet.setBalance(BigDecimal.valueOf(0));
-			wallet.setCustomer(customer);
-			return walletRepo.save(wallet).getCustomer();
-			
-		}
 		
+			wallet.setCustomer(customer);
+			 walletRepo.save(wallet);
+			return customerRepo.save(customer);
+			
+		}	
 	}
 
 	@Override
@@ -101,21 +102,22 @@ public class WalletServiceImpl implements WalletService{
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
 		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
+		System.out.println(accounts);
+		System.out.println(accountNo);
+		if(accounts.size()==0) throw new BankAccountException("Add bank account for transaction");
 		
-		if(accounts.isEmpty()) throw new BankAccountException("Add bank account for transaction");
-		
-		BankAccount acct = null;
-		boolean flag=false;
+		BankAccount acct=null;
+//		boolean flag=false;
 		
 		for(BankAccount b : accounts) {
-			if(b.getAccountNo()==accountNo) {
+			if((b.getAccountNo().toString()).equals(accountNo.toString())) {
 				acct=b;
-				flag=true;
 				break;
 			}
+			
 		}
 		
-		if(!flag) throw new BankAccountException("Bank account number does not match the data of saved accounts");
+		if(acct==null) throw new BankAccountException("Bank account number does not match the data of saved accounts");
 				
 		if(acct.getBalance() < amount) throw new BankAccountException("Insufficient balance in account");
 		
