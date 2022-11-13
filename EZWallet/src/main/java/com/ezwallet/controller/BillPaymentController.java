@@ -26,10 +26,10 @@ public class BillPaymentController {
 	private BillPaymentService billPayService;
 	
 	@PostMapping("/addBillPayment")
-	public ResponseEntity<String> addBillPayment(@RequestParam("targetMobile") String targetMobile, @RequestParam("Name") String Name, @RequestParam("amount") double amount, @RequestParam("BillType") String BillType, @RequestParam("paymentDate") String paymentDate,@RequestParam("walletId") Integer walletId, @RequestParam("key") String key) throws BillPaymentException, WalletException, CustomerException, LogInException, TransactionException {
+	public ResponseEntity<String> addBillPayment(@RequestParam("targetMobile") String targetMobile, @RequestParam("Name") String Name, @RequestParam("amount") double amount, @RequestParam("BillType") String BillType, @RequestParam("key") String key) throws BillPaymentException, WalletException, CustomerException, LogInException, TransactionException {
 		
-		LocalDate date=LocalDate.parse(paymentDate);
-		String output = billPayService.addBillPayment(targetMobile, Name, amount, BillType,date , walletId, key);
+		LocalDate date=LocalDate.now();
+		String output = billPayService.addBillPayment(targetMobile, Name, amount, BillType,date , 0, key);
 		
 		return new ResponseEntity<String>(output,HttpStatus.OK);
 	}

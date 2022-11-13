@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ezwallet.exception.BeneficiaryException;
 import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.Beneficiary;
+import com.ezwallet.model.BeneficiaryDTO;
 import com.ezwallet.model.CurrentUserSession;
 import com.ezwallet.model.Customer;
 import com.ezwallet.model.Wallet;
@@ -46,27 +47,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	
 
 	@Override
-	public Beneficiary deleteBeneficiary(Beneficiary beneficiary) throws BeneficiaryException {
-		
-		List<Beneficiary> beneficiaries=beneficiaryDao.findByNameWallet(beneficiary.getWallet().getWalletId(),beneficiary.getName());
-		
-		if(!beneficiaries.contains(beneficiary)) {
-			throw new BeneficiaryException("No such beneficiary Exist");
-		}
-		// TODO Auto-generated method stub
-		Optional<Beneficiary> optional=beneficiaryDao.findById(beneficiary.getMobileNumber());
-		
-		if(optional.isPresent()) {
-			beneficiaryDao.delete(beneficiary);
-			return optional.get();
-		}
-		else {
-			throw new BeneficiaryException("Beneficiary Not Exist");
-		}
-	}
-
-	@Override
-	public List<Beneficiary> viewBeneficiary(String name,String key) throws BeneficiaryException, CustomerException {
+	public Beneficiary deleteBeneficiary(String key, BeneficiaryDTO beneficiary) throws BeneficiaryException,CustomerException {
 		
 		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
 		
@@ -76,10 +57,34 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 		
 		Wallet wallet=walletRepository.showWalletDetails(currUser.getUserId());
-		List<Beneficiary> beneficiaries=beneficiaryDao.findByNameWallet(wallet.getWalletId(),name);
+		Beneficiary beneficiaries=beneficiaryDao.findByMobWallet(wallet.getWalletId(),beneficiary.getMobileNumber());
 		
 		
-		if(beneficiaries.isEmpty()) {
+		if(beneficiaries!=null) {
+			beneficiaryDao.delete(beneficiaries);
+			return beneficiaries;
+		}
+		else {
+			throw new BeneficiaryException("Beneficiary Not Exist");
+		}
+	}
+
+	@Override
+	public Beneficiary viewBeneficiary(String name,String key) throws BeneficiaryException, CustomerException {
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		
+		
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
+		Wallet wallet=walletRepository.showWalletDetails(currUser.getUserId());
+		
+		Beneficiary beneficiaries=beneficiaryDao.findByNameWallet(wallet.getWalletId(),name);
+		
+		
+		if(beneficiaries==null) {
 			throw new BeneficiaryException("Beneficiary Not Exist");
 			
 		}else {
@@ -87,22 +92,21 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 	}
 
-//	public List<Beneficiary> viewAllBeneficiary(Beneficiary beneficiary) throws BeneficiaryException{
-//		
-//		Optional<Beneficiary> optional=beneficiaryDao.findById(beneficiary.getMobileNumber());
-//		
-//		if(optional.isPresent()) {
-//			List<Beneficiary> beneficiaries=findAllByWallet(optional.get().getWallet());
-//			if(beneficiaries.isEmpty()) {
-//				throw new BeneficiaryException("Beneficiary not found");
-//			}else {
-//				return beneficiaries;
-//			}
-//		}
-//		else {
-//			throw new BeneficiaryException("Beneficiary not Exist");
-//		}
-//	}
+	public List<Beneficiary> viewAllBeneficiary(String key) throws BeneficiaryException, CustomerException{
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		
+		
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
+		Wallet wallet=walletRepository.showWalletDetails(currUser.getUserId());
+		
+		List<Beneficiary> beneficiaries=beneficiaryDao.findByWallet(wallet.getWalletId());
+		
+		return beneficiaries;
+	}
 
 	public List<Beneficiary> findAllByWallet(Wallet wallet) throws BeneficiaryException {
 		

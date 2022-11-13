@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezwallet.exception.BeneficiaryException;
 import com.ezwallet.exception.CustomerException;
 import com.ezwallet.model.Beneficiary;
+import com.ezwallet.model.BeneficiaryDTO;
 import com.ezwallet.model.Wallet;
 import com.ezwallet.service.BeneficiaryService;
 
@@ -39,35 +40,28 @@ public class BeneficiaryController {
 //	}
 //	
 	
-	@DeleteMapping("/beneficiaries")
-	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@Valid@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
-		
-		return new ResponseEntity<Beneficiary>(beneficiaryService.deleteBeneficiary(beneficiary),HttpStatus.OK);
-		
-		
-	}
-	
-//	@GetMapping("/beneficiaries")
-//	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestBody Beneficiary beneficiary) throws BeneficiaryException{
+//	@DeleteMapping("/beneficiaries")
+//	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@Valid @RequestBody BeneficiaryDTO beneficiary ,@RequestParam String key) throws BeneficiaryException, CustomerException{
 //		
-//		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewAllBeneficiary(beneficiary),HttpStatus.FOUND);
+//		return new ResponseEntity<Beneficiary>(beneficiaryService.deleteBeneficiary(key,beneficiary),HttpStatus.OK);
 //		
 //		
 //	}
 	
-	
-	@PostMapping("/beneficiariesbywallet")
-	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryByWalletMapping(@Valid@RequestBody Wallet wallet) throws BeneficiaryException{
+	@GetMapping("/beneficiarylist")
+	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestParam String key) throws BeneficiaryException, CustomerException{
 		
-		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.findAllByWallet(wallet),HttpStatus.FOUND);
+		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewAllBeneficiary(key),HttpStatus.FOUND);
 		
 		
 	}
 	
+	
+	
 	@GetMapping("/beneficiaries")
-	public ResponseEntity<List<Beneficiary>> getBeneneficiaryMapping(@RequestParam String name,@RequestParam String key) throws BeneficiaryException, CustomerException{
+	public ResponseEntity<Beneficiary> getBeneneficiaryMapping(@RequestParam String name,@RequestParam String key) throws BeneficiaryException, CustomerException{
 		
-		return new ResponseEntity<List<Beneficiary>>(beneficiaryService.viewBeneficiary(name,key),HttpStatus.FOUND);
+		return new ResponseEntity<Beneficiary>(beneficiaryService.viewBeneficiary(name,key),HttpStatus.FOUND);
 		
 		
 	}
