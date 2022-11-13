@@ -19,7 +19,7 @@
 
 4) Vinay Kumar -Responsible for creating the Transaction Module and debuging application.
 
-5) Sayali Divate  -Responsible for creating the Wallet Module ER Daigram.
+5) Sayali Divate  -Responsible for creating the Wallet Module and ER Daigram.
 
 <br>
 <br>
@@ -42,11 +42,11 @@
 <hr>
 <br>
 
-- User Login authrntication
+- User Login authentication
 - validation for the mobile number number
 - validation for the account number number and IFSC code
 - validation for the current user and user identification
-- RESTful API with CURD operations
+- RESTFUL API with CRUD operations
 
 <br>
 <br>
