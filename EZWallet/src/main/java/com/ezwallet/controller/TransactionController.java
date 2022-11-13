@@ -41,10 +41,10 @@ public class TransactionController {
 	
 	
 	@GetMapping("transactionbytwodate")
-	public ResponseEntity<List<TransactionDTO>> viewByTwoDate(@RequestParam("one") String one, @RequestParam("two")  String two) throws TransactionException{
+	public ResponseEntity<List<TransactionDTO>> viewByTwoDate(@RequestParam String key, @RequestParam("one") String one, @RequestParam("two")  String two) throws TransactionException, CustomerException{
 		LocalDate firstDate= LocalDate.parse(one);
 		LocalDate secondDate = LocalDate.parse(two);
-		List<Transaction> listOTransactions = transactionService.viewTransactionByDate(firstDate, secondDate);
+		List<Transaction> listOTransactions = transactionService.viewTransactionByDate(key,firstDate, secondDate);
 		
 		List<TransactionDTO> listOfTransactionDTOs= new ArrayList<>();
 		for(Transaction transaction:listOTransactions) {
@@ -65,8 +65,8 @@ public class TransactionController {
 	
 	
 	@GetMapping("/transactiontype/{type}")
-	public ResponseEntity<List<TransactionDTO>> viewAllTransacationByType(@PathVariable("type") String type) throws TransactionException{
-		List<Transaction> listTransactions=transactionService.findByTransactionType(type);
+	public ResponseEntity<List<TransactionDTO>> viewAllTransacationByType(@RequestParam String key, @PathVariable("type") String type) throws TransactionException, CustomerException{
+		List<Transaction> listTransactions=transactionService.findByTransactionType(key,type);
 		
 		List<TransactionDTO> listOfTransactionDTOs= new ArrayList<>();
 		for(Transaction transaction:listTransactions) {
@@ -86,9 +86,9 @@ public class TransactionController {
 	
 	
 	@GetMapping("/transaction/{id}")
-	public ResponseEntity<TransactionDTO> findById(@PathVariable("id") Integer id) throws TransactionException{
+	public ResponseEntity<TransactionDTO> findById(@RequestParam String key, @PathVariable("id") Integer id) throws TransactionException, CustomerException{
 	
-		Transaction transaction = transactionService.findByTransactionId(id);	
+		Transaction transaction = transactionService.findByTransactionId(key,id);	
 		TransactionDTO dto = new TransactionDTO();
 		dto.setAmount(transaction.getAmount());
 		dto.setDescription(transaction.getDescription());
@@ -119,8 +119,8 @@ public class TransactionController {
 	
 	
 	
-	@GetMapping("/transaction")
-	public ResponseEntity<List<TransactionDTO>>  viewAllTransaction() throws TransactionException{
+	@GetMapping("/transactionbyadmin")
+	public ResponseEntity<List<TransactionDTO>>  viewAllTransactionByAdmin() throws TransactionException{
 		List<Transaction>  listOfTransactions = transactionService.viewAllTransaction();
 		List<TransactionDTO> listOfTransactionDTOs= new ArrayList<>();
 		for(Transaction transaction:listOfTransactions) {	
@@ -140,9 +140,9 @@ public class TransactionController {
 	
 
 	@GetMapping("/transactionbydate/{date}")
-	public ResponseEntity<List<TransactionDTO>> viewByDate(@RequestParam("date") String date) throws TransactionException{
+	public ResponseEntity<List<TransactionDTO>> viewByDate(@RequestParam String key,@RequestParam("date") String date) throws TransactionException, CustomerException{
 		LocalDate sdate = LocalDate.parse(date);
-		List<Transaction> listOfTransactions=  transactionService.findByDate(sdate);
+		List<Transaction> listOfTransactions=  transactionService.findByDate(key,sdate);
 		
 		List<TransactionDTO> listOfTransactionDTOs= new ArrayList<>();	
 		for(Transaction transaction:listOfTransactions) {
