@@ -42,7 +42,13 @@ public class TransactioinImpl implements TransactionService{
 	
 
 	@Override
-	public List<Transaction> viewTransactionByDate(LocalDate date, LocalDate two)throws TransactionException {
+	public List<Transaction> viewTransactionByDate(String key,LocalDate date, LocalDate two)throws TransactionException, CustomerException {
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
+		
 		LocalDate currentDate=LocalDate.now();
 		if(date.isAfter(currentDate))throw new TransactionException("First Date is future.");
 		if(two.isAfter(currentDate))throw new TransactionException("Second Date is future.");
@@ -58,8 +64,6 @@ public class TransactioinImpl implements TransactionService{
 	public List<Transaction> findByWallet(String key) throws TransactionException, WalletException, CustomerException {
 		
 		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
-		
-		
 		if(currUser==null) {
 			throw new CustomerException("Please Login first");
 		}
@@ -78,7 +82,12 @@ public class TransactioinImpl implements TransactionService{
 	
 	
 	@Override
-	public Transaction findByTransactionId(Integer id)throws TransactionException{
+	public Transaction findByTransactionId(String key,Integer id)throws TransactionException, CustomerException{
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
 		Optional<Transaction> transaction = transactionRepository.findById(id);
 		
 		if(!transaction.isPresent())throw new TransactionException("Invalid Id.");
@@ -87,7 +96,13 @@ public class TransactioinImpl implements TransactionService{
 	}
 	
 	@Override
-	public List<Transaction> findByTransactionType(String transactionType) throws TransactionException{
+	public List<Transaction> findByTransactionType(String key,String transactionType) throws TransactionException, CustomerException{
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
 		List<Transaction> listOTransactions = transactionRepository.findByTransactionType(transactionType);
 		if(listOTransactions.size()==0)throw new TransactionException("Transaction list Empty..");
 		return listOTransactions;
@@ -107,7 +122,13 @@ public class TransactioinImpl implements TransactionService{
 
 
 	@Override
-	public List<Transaction> findByDate(LocalDate date) throws TransactionException {
+	public List<Transaction> findByDate(String key,LocalDate date) throws TransactionException, CustomerException {
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
 		LocalDate currentDate=LocalDate.now();
 		if(date.isAfter(currentDate))throw new TransactionException("Date is future");
 		List<Transaction> listOfTransactions= transactionRepository.findByTransactionDate(date);
