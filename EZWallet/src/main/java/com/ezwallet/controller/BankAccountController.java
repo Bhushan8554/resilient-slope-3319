@@ -31,13 +31,13 @@ public class BankAccountController {
 	@Autowired
 	private BankAccountService bankAccountService;
 	
-	@GetMapping("/getbankaccount")
-	public ResponseEntity<BankAccount> getBankAccountMapping(@RequestParam String key) throws BankAccountException, CustomerException{
-		BankAccount bacc=bankAccountService.viewAccount(key);	
-		ResponseEntity<BankAccount> resBacc= new ResponseEntity<>(bacc,HttpStatus.FOUND);
-		return resBacc;
-			
-	}
+//	@GetMapping("/getbankaccount")
+//	public ResponseEntity<BankAccount> getBankAccountMapping(@RequestParam String key) throws BankAccountException, CustomerException{
+//		BankAccount bacc=bankAccountService.viewAccount(key);	
+//		ResponseEntity<BankAccount> resBacc= new ResponseEntity<>(bacc,HttpStatus.ACCEPTED);
+//		return resBacc;
+//			
+//	}
 
 	
 	
@@ -45,6 +45,8 @@ public class BankAccountController {
 	public ResponseEntity<List<BankAccount>> getAllBankAccountMapping(@RequestParam String key) throws BankAccountException, CustomerException{
 		
 		List<BankAccount> listBacc= bankAccountService.viewAllAccount(key);
+		
+		
 		
 		ResponseEntity<List<BankAccount>> resListBacc= new ResponseEntity<>(listBacc,HttpStatus.FOUND);
 		
@@ -65,16 +67,16 @@ public class BankAccountController {
 
 	
 	
-//	@DeleteMapping("/deletebank")
-//	public ResponseEntity<Wallet> removeAccountMapping(@RequestParam String key,@Valid @RequestBody BankAccountDTO bankAccount) throws BankAccountException{
-//		
-//		Wallet wallet= bankAccountService.removeAccount(key,bankAccount);
-//		
-//		ResponseEntity<Wallet> resWallet= new ResponseEntity<>(wallet,HttpStatus.OK);
-//		
-//		
-//		return resWallet;
-//	}
+	@DeleteMapping("/deletebank")
+	public ResponseEntity<Wallet> removeAccountMapping(@RequestParam String key,@Valid @RequestBody BankAccountDTO bankAccount) throws BankAccountException{
+		
+		Wallet wallet= bankAccountService.removeAccount(key,bankAccount);
+		
+		ResponseEntity<Wallet> resWallet= new ResponseEntity<>(wallet,HttpStatus.OK);
+		
+		
+		return resWallet;
+	}
 	
 	
 	
