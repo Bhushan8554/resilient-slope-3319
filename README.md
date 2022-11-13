@@ -1,8 +1,8 @@
 
 # EZWallet_Application
 <hr>
-<li>An Collabrative Project Consisting Of the 5 Developer Depicting the implementation of the EZwallet online transaction platform
-<li>An developement of RESTful API for an Online Payment Wallet application. This API performs all the fundamental CRUD operations of wallet platform with user validation at every step.
+<li>A Collabrative Project developed by 5 developers depicting the implementation of the EZwallet online transaction platform
+<li>A developement of RESTful API for an Online Payment Wallet application. This API performs all the fundamental CRUD operations of wallet platform with user validation at every step.
 <br>
  
  # Team Member Roles And Responsibilities
@@ -17,9 +17,9 @@
 
 3) Vivek Raj -Responsible For Login/Logout authentication and bill payment module .
 
-4) Vinay Kumar -Responsible for creating the Transaction Module and debuging application.
+4) Vinay Kumar -Responsible for creating the Transaction Module and debuging the application.
 
-5) Sayali Divate  -Responsible for creating the Wallet Module and ER Daigram.
+5) Sayali Divate  -Responsible for creating the Wallet Module and Entity relational mapping.
 
 <br>
 <br>
