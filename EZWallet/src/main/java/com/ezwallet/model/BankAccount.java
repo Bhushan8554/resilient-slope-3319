@@ -34,7 +34,7 @@ public class BankAccount {
 	private Double balance;
 	
 	
-	@ManyToOne(cascade= CascadeType.ALL)
+	@ManyToOne(cascade= CascadeType.PERSIST)
 //	@JoinColumn(name = "wid",referencedColumnName = "walletId")
 	private Wallet wallet;
 	

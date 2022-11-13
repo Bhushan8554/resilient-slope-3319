@@ -40,13 +40,13 @@ public class BeneficiaryController {
 //	}
 //	
 	
-//	@DeleteMapping("/beneficiaries")
-//	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@Valid @RequestBody BeneficiaryDTO beneficiary ,@RequestParam String key) throws BeneficiaryException, CustomerException{
-//		
-//		return new ResponseEntity<Beneficiary>(beneficiaryService.deleteBeneficiary(key,beneficiary),HttpStatus.OK);
-//		
-//		
-//	}
+	@DeleteMapping("/beneficiaries")
+	public ResponseEntity<Beneficiary> deleteBeneneficiaryMapping(@Valid @RequestBody BeneficiaryDTO beneficiary ,@RequestParam String key) throws BeneficiaryException, CustomerException{
+		
+		return new ResponseEntity<Beneficiary>(beneficiaryService.deleteBeneficiary(key,beneficiary),HttpStatus.OK);
+		
+		
+	}
 	
 	@GetMapping("/beneficiarylist")
 	public ResponseEntity<List<Beneficiary>> getAllBeneneficiaryMapping(@RequestParam String key) throws BeneficiaryException, CustomerException{
