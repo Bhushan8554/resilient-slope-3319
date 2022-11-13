@@ -141,16 +141,8 @@ http://localhost:8888/swagger-ui/#
 
 # Screenshots
 
-![Swagger UI - Google Chrome 03-10-2022 09_20_51](https://user-images.githubusercontent.com/101331023/193498809-acec52c3-bf24-498a-8478-1b48c69228ea.png)
 
 
-
-![Swagger UI - Google Chrome 03-10-2022 09_21_13](https://user-images.githubusercontent.com/101331023/193498829-1cdd1d29-720c-413b-a61b-e376b2d8071f.png)
-
-
-
-
-![Swagger UI - Google Chrome 03-10-2022 09_21_26](https://user-images.githubusercontent.com/101331023/193498841-22886520-b223-4edc-88cb-224b05233aa7.png)
-
-
-
+<img src="https://i.ibb.co/PMq2JQK/Screenshot-452.png" alt="Screenshot-452" border="0">
+<img src="https://i.ibb.co/PQmb4cS/Screenshot-453.png" alt="Screenshot-453" border="0">
+<img src="https://i.ibb.co/PM03DWq/Screenshot-454.png" alt="Screenshot-454" border="0">
