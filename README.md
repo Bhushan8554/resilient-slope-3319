@@ -58,8 +58,7 @@ The following Diagram depicts the flow of our Entity Relation Diagram to simplif
 <br>
 <br>
   
-  
-![WhatsApp Image 2022-09-27 at 9 52 51 PM](https://user-images.githubusercontent.com/57911117/192693251-f4deedb6-d884-404c-9529-3970e25a8a5f.jpeg)
+<img src="https://i.ibb.co/PmwP4N5/image.png" alt="image" border="0"  width="100%" height="400" >
 
 <br>
 <br>
@@ -67,7 +66,7 @@ The following Diagram depicts the flow of our Entity Relation Diagram to simplif
 
 # Services Table
 <hr>
-The following Diagram depicts the services of our EZWallet module
+The following Diagram depicts the services of our EZWallet modules
 <br>
 <br>
   
