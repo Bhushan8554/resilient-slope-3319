@@ -57,8 +57,7 @@
 The following Diagram depicts the flow of our Entity Relation Diagram to simplify the work flow.
 <br>
 <br>
-  
-<img src="https://i.ibb.co/PmwP4N5/image.png" alt="image" border="0"  width="100%" height="400" >
+  <img src="https://i.ibb.co/6XVkNh0/EZWallet-ER.png" alt="EZWallet-ER" border="0"  width="100%" height="400">
 
 <br>
 <br>
