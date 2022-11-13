@@ -7,10 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezwallet.exception.CustomerException;
 import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
+import com.ezwallet.model.CurrentUserSession;
 import com.ezwallet.model.Transaction;
 import com.ezwallet.model.Wallet;
+import com.ezwallet.repository.CurrentSessionDao;
 import com.ezwallet.repository.TransactionRepo;
 import com.ezwallet.repository.WalletRepository;
 
@@ -24,7 +27,8 @@ public class TransactioinImpl implements TransactionService{
 	@Autowired
 	private WalletRepository walletRepository;
 	
-	
+	@Autowired 
+	CurrentSessionDao currentSessionDao;
 
 	@Override
 	public Transaction addTransaction(Transaction tran) throws TransactionException, WalletException {	
@@ -51,7 +55,16 @@ public class TransactioinImpl implements TransactionService{
 	
 	
 	@Override
-	public List<Transaction> findByWallet(Wallet wallet) throws TransactionException, WalletException {
+	public List<Transaction> findByWallet(String key) throws TransactionException, WalletException, CustomerException {
+		
+		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
+		
+		
+		if(currUser==null) {
+			throw new CustomerException("Please Login first");
+		}
+		
+		Wallet wallet=walletRepository.showWalletDetails(currUser.getUserId());
 		Optional<Wallet> wall= walletRepository.findById(wallet.getWalletId());
 		System.out.println(wall);
 		if(!wall.isPresent())throw new WalletException("Wallet id Invalid.");

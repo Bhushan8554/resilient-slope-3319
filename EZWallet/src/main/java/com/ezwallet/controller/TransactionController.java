@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezwallet.exception.CustomerException;
 import com.ezwallet.exception.TransactionException;
 import com.ezwallet.exception.WalletException;
 import com.ezwallet.model.Transaction;
@@ -98,9 +99,9 @@ public class TransactionController {
 	}
 	
 	
-	@PostMapping("/gettransactionbywallet")
-	public ResponseEntity<List<TransactionDTO>> viewByWallet(@RequestBody Wallet wallet) throws TransactionException, WalletException{
-		List<Transaction> listTransactions= transactionService.findByWallet(wallet);
+	@PostMapping("/gettransactionlist")
+	public ResponseEntity<List<TransactionDTO>> viewByWallet(@RequestParam String key) throws TransactionException, WalletException, CustomerException{
+		List<Transaction> listTransactions= transactionService.findByWallet(key);
 		
 		List<TransactionDTO> listOfTransactionDTOs= new ArrayList<>();
 		for(Transaction transaction:listTransactions) {

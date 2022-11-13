@@ -68,14 +68,14 @@ public class BankAccountServiceImpl implements BankAccountService{
 	
 
 	@Override
-	public Wallet removeAccount(BankAccount bacc) throws BankAccountException{
+	public Wallet removeAccount(String key,BankAccountDTO bacc) throws BankAccountException{
 		
 		
 		Wallet wallet= null;
 		Optional<BankAccount> opt= baccDao.findById(bacc.getAccountNo());
 		
 		if(opt.isPresent()) {
-			baccDao.delete(bacc);
+			baccDao.delete(opt.get());
 			wallet= opt.get().getWallet();
 		} else {
 			 throw new BankAccountException("Bank Account does not exist");
@@ -84,7 +84,7 @@ public class BankAccountServiceImpl implements BankAccountService{
 	}
 
 	@Override
-	public BankAccount viewAccount(String key,Wallet wallet) throws BankAccountException,CustomerException{
+	public BankAccount viewAccount(String key) throws BankAccountException,CustomerException{
 		
 		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
 		if(currUser==null) {
@@ -92,7 +92,7 @@ public class BankAccountServiceImpl implements BankAccountService{
 		}
 		
 		
-		BankAccount bacc= baccDao.findByWallet(wallet);
+		BankAccount bacc= baccDao.findByWallet(walletRepository.showWalletDetails(currUser.getUserId()).getWalletId()).get(0);
 		
 		if(bacc==null) {
 			
@@ -103,7 +103,7 @@ public class BankAccountServiceImpl implements BankAccountService{
 	}
 
 	@Override
-	public List<BankAccount> viewAllAccount(String key,Wallet wallet) throws BankAccountException,CustomerException{
+	public List<BankAccount> viewAllAccount(String key) throws BankAccountException,CustomerException{
 		
 		CurrentUserSession currUser=currentSessionDao.findByUuid(key);
 		if(currUser==null) {
@@ -111,16 +111,14 @@ public class BankAccountServiceImpl implements BankAccountService{
 		}
 		
 		
+		List<BankAccount> bacc= baccDao.findAllByWallet(walletRepository.showWalletDetails(currUser.getUserId()).getWalletId());
 		
-		
-		List<BankAccount> baccList= baccDao.findAllByWallet(wallet);
-		
-		
-		if(baccList.isEmpty()) {
-			throw new BankAccountException("Bank Accounts do not exist");
+		if(bacc==null) {
+			
+			throw new BankAccountException("Bank Account does not exist");
 		}
 		
-		return baccList;
+		return bacc;
 	}
 
 }

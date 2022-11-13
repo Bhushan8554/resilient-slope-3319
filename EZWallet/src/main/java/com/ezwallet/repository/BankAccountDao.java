@@ -4,17 +4,18 @@ import java.util.List;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ezwallet.model.BankAccount;
-import com.ezwallet.model.Wallet;
 
 @Repository
 
 public interface BankAccountDao  extends JpaRepository<BankAccount, Integer>{
 	
-	public BankAccount findByWallet(Wallet wallet);
-	
-	public List<BankAccount> findAllByWallet(Wallet wallet);
+	@Query(value = "from BankAccount b INNER JOIN b.wallet w where w.walletId=?1")
+	public List<BankAccount>  findByWallet(Integer walletId);
+	@Query(value = "from BankAccount b INNER JOIN b.wallet w where w.walletId=?1")
+	public List<BankAccount> findAllByWallet(Integer walletId);
 
 }

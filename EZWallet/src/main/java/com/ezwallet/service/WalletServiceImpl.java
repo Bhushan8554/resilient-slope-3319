@@ -101,7 +101,7 @@ public class WalletServiceImpl implements WalletService{
 		Integer id = user.getUserId();
 		Wallet wallet = walletRepo.showWalletDetails(id);
 		
-		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet);
+		List<BankAccount> accounts = bankRepo.findAllByWallet(wallet.getWalletId());
 		System.out.println(accounts);
 		System.out.println(accountNo);
 		if(accounts.size()==0) throw new BankAccountException("Add bank account for transaction");
@@ -204,9 +204,9 @@ public class WalletServiceImpl implements WalletService{
 		
 		if(!cust.isPresent()) throw new CustomerException("Customer does not exist");
 		
-		List<Customer> custList = cust.stream().collect(Collectors.toList());
+//		List<Customer> custList = cust.stream().collect(Collectors.toList());
 		
-		Customer customerToUpdate = custList.get(0);
+		Customer customerToUpdate = cust.get();
 		
 		customerToUpdate.setMobileNumber(customer.getMobileNumber());
 		

@@ -2,6 +2,8 @@ package com.ezwallet.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezwallet.exception.BankAccountException;
@@ -22,15 +25,15 @@ import com.ezwallet.service.BankAccountService;
 
 
 @RestController
-@RequestMapping("/bank")
+@RequestMapping("/bankservice")
 public class BankAccountController {
 	
 	@Autowired
 	private BankAccountService bankAccountService;
 	
-	@PostMapping("/bankacc/{key}")
-	public ResponseEntity<BankAccount> getBankAccountMapping(@PathVariable String key, @RequestBody Wallet wallet) throws BankAccountException, CustomerException{
-		BankAccount bacc=bankAccountService.viewAccount(key,wallet);	
+	@GetMapping("/getbankaccount")
+	public ResponseEntity<BankAccount> getBankAccountMapping(@RequestParam String key) throws BankAccountException, CustomerException{
+		BankAccount bacc=bankAccountService.viewAccount(key);	
 		ResponseEntity<BankAccount> resBacc= new ResponseEntity<>(bacc,HttpStatus.FOUND);
 		return resBacc;
 			
@@ -38,10 +41,10 @@ public class BankAccountController {
 
 	
 	
-	@PostMapping("/bankaccounts/{key}")
-	public ResponseEntity<List<BankAccount>> getAllBankAccountMapping(@PathVariable String key, @RequestBody Wallet wallet) throws BankAccountException, CustomerException{
+	@GetMapping("/bankaccounts")
+	public ResponseEntity<List<BankAccount>> getAllBankAccountMapping(@RequestParam String key) throws BankAccountException, CustomerException{
 		
-		List<BankAccount> listBacc= bankAccountService.viewAllAccount(key,wallet);
+		List<BankAccount> listBacc= bankAccountService.viewAllAccount(key);
 		
 		ResponseEntity<List<BankAccount>> resListBacc= new ResponseEntity<>(listBacc,HttpStatus.FOUND);
 		
@@ -50,28 +53,28 @@ public class BankAccountController {
 	}
 	
 	
-	@PostMapping("/bankaccount/{key}")
-	public ResponseEntity<Wallet> addAccountMapping(@PathVariable String key, @RequestBody BankAccountDTO bankAccount) throws BankAccountException, CustomerException{
+	@PostMapping("/addbankaccount")
+	public ResponseEntity<String> addAccountMapping(@RequestParam String key,@Valid @RequestBody BankAccountDTO bankAccount) throws BankAccountException, CustomerException{
 		
 		Wallet wallet= bankAccountService.addAccount(key,bankAccount);
 		
-		ResponseEntity<Wallet> resWallet= new ResponseEntity<>(wallet,HttpStatus.ACCEPTED);
+		ResponseEntity<String> resWallet= new ResponseEntity<>("Bank Account Added Succssesfuly",HttpStatus.ACCEPTED);
 		
 		return resWallet;
 	}
 
 	
 	
-	@DeleteMapping("/deltebank")
-	public ResponseEntity<Wallet> removeAccountMapping(@RequestBody BankAccount bankAccount) throws BankAccountException{
-		
-		Wallet wallet= bankAccountService.removeAccount(bankAccount);
-		
-		ResponseEntity<Wallet> resWallet= new ResponseEntity<>(wallet,HttpStatus.OK);
-		
-		
-		return resWallet;
-	}
+//	@DeleteMapping("/deletebank")
+//	public ResponseEntity<Wallet> removeAccountMapping(@RequestParam String key,@Valid @RequestBody BankAccountDTO bankAccount) throws BankAccountException{
+//		
+//		Wallet wallet= bankAccountService.removeAccount(key,bankAccount);
+//		
+//		ResponseEntity<Wallet> resWallet= new ResponseEntity<>(wallet,HttpStatus.OK);
+//		
+//		
+//		return resWallet;
+//	}
 	
 	
 	
